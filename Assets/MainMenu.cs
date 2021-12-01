@@ -13,6 +13,6 @@ public class MainMenu : MonoBehaviour
 
     public void StartButton()
     {
-        SceneManager.LoadScene("Acension");
+        SceneManager.LoadScene("Ascension");
     }
 }
