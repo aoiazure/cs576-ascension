@@ -3,16 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MainMenu : MonoBehaviour
-{
-    public void ExitButton()
-    {
+public class MainMenu : MonoBehaviour {
+    public void ExitButton() {
         Application.Quit();
         Debug.Log("Exited game!");
     }
 
-    public void StartButton()
-    {
-        SceneManager.LoadScene("Acension");
+    public void StartButton() {
+        SceneManager.LoadScene("Ascension");
     }
 }
