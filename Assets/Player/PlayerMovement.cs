@@ -6,7 +6,7 @@ public class PlayerMovement : MonoBehaviour {
 
     public CharacterController controller;
 
-    public float speed = 12f;
+    public float speed = 5f;
     public float gravity = -9.81f;
     public float jump_height = 3f;
 
@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour {
 
     Vector3 velocity;
     bool is_grounded;
+    bool is_crouching;
 
     // Update is called once per frame
     void Update() {

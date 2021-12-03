@@ -1471,7 +1471,7 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.901
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
@@ -3325,6 +3325,14 @@ PrefabInstance:
     - target: {fileID: 2119945486259847650, guid: c637ae4f642ad244cb18918cd9ab66a2, type: 3}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2643429419331925942, guid: c637ae4f642ad244cb18918cd9ab66a2, type: 3}
+      propertyPath: speed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2643429419331925942, guid: c637ae4f642ad244cb18918cd9ab66a2, type: 3}
+      propertyPath: gravity
+      value: -9.81
       objectReference: {fileID: 0}
     - target: {fileID: 4106426685576018528, guid: c637ae4f642ad244cb18918cd9ab66a2, type: 3}
       propertyPath: m_Materials.Array.data[0]
