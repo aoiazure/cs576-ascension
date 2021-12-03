@@ -13,6 +13,7 @@ public class Gun : MonoBehaviour {
     public GameObject muzzle_flash_effect;
     public GameObject bullet_impact_effect;
     public GameObject gun;
+    public AudioSource gunShot;
 
     //
     private float next_time_to_fire = 0f;
@@ -37,6 +38,7 @@ public class Gun : MonoBehaviour {
     void Shoot() {
         isFiring = true;
         gun.GetComponent<Animator>().Play("firepistol");
+        gunShot.Play();
         RaycastHit hit;
         if (Physics.Raycast(fps_cam.transform.position, fps_cam.transform.forward, out hit, range)) {
             Debug.Log(hit.transform.name);
