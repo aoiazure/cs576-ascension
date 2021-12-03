@@ -12,9 +12,11 @@ public class Gun : MonoBehaviour {
     public GameObject muzzle_transform;
     public GameObject muzzle_flash_effect;
     public GameObject bullet_impact_effect;
+    public GameObject gun;
 
     //
-    private float next_time_to_fire = 0f;   
+    private float next_time_to_fire = 0f;
+    public bool isFiring = false;
 
     // Update is called once per frame
     void Update() {
@@ -24,12 +26,17 @@ public class Gun : MonoBehaviour {
             mzf.transform.SetParent(this.transform);
             Destroy(mzf, 0.15f);
             // Shoot
-            next_time_to_fire = Time.time + 1f / firerate;
-            Shoot();
+            if (!isFiring)
+            {
+                next_time_to_fire = Time.time + 1f / firerate;
+                Shoot();
+            }
         }
     }
 
     void Shoot() {
+        isFiring = true;
+        gun.GetComponent<Animator>().Play("firepistol");
         RaycastHit hit;
         if (Physics.Raycast(fps_cam.transform.position, fps_cam.transform.forward, out hit, range)) {
             Debug.Log(hit.transform.name);
@@ -40,5 +47,7 @@ public class Gun : MonoBehaviour {
         }
         GameObject bip = Instantiate(bullet_impact_effect, hit.point, Quaternion.LookRotation(hit.normal));
         Destroy(bip, 1f);
+        gun.GetComponent<Animator>().Play("idle");
+        isFiring = false;
     }
 }
