@@ -59,7 +59,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 9030860492271565295}
-  - {fileID: 2119945486259847650}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -262,7 +261,7 @@ GameObject:
   - component: {fileID: 1961388453037362132}
   - component: {fileID: 2643429419331925942}
   m_Layer: 2
-  m_Name: FirstPersonPlayer
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -283,6 +282,7 @@ Transform:
   - {fileID: 2971386371226423990}
   - {fileID: 5392648214883525715}
   - {fileID: 5071798514532454994}
+  - {fileID: 2119945486259847650}
   m_Father: {fileID: 526300516384620250}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -317,7 +317,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1961388453037362132}
+  cam: {fileID: 6874503821930999769}
   speed: 12
+  sprint_speed: 1.5
   gravity: -19.62
   jump_height: 3
   ground_check: {fileID: 5071798514532454994}
@@ -386,8 +388,8 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 2535688800918471723}
-  m_Father: {fileID: 526300516384620250}
-  m_RootOrder: 1
+  m_Father: {fileID: 9030860492271565295}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -405,7 +407,7 @@ Canvas:
   serializedVersion: 3
   m_RenderMode: 1
   m_Camera: {fileID: 6874503821930999769}
-  m_PlaneDistance: 0.5
+  m_PlaneDistance: 0.2
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -729,14 +731,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 10
   range: 100
-  firerate: 50
+  firerate: 20
   fps_cam: {fileID: 6874503821930999769}
   muzzle_transform: {fileID: 8839917703729176308}
   muzzle_flash_effect: {fileID: 1743301284569550, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
   bullet_impact_effect: {fileID: 1944003335794477033, guid: 6b701b3de82fb6a419942e6d613d17f8, type: 3}
   gun: {fileID: 8774749333507479399}
   gunShot: {fileID: 7910443915977114449}
-  isFiring: 0
+  is_firing: 0
 --- !u!1 &8839917703729176308
 GameObject:
   m_ObjectHideFlags: 0
