@@ -27,8 +27,7 @@ public class Gun : MonoBehaviour {
             mzf.transform.SetParent(this.transform);
             Destroy(mzf, 0.15f);
             // Shoot
-            if (!isFiring)
-            {
+            if (!isFiring) {
                 next_time_to_fire = Time.time + 1f / firerate;
                 Shoot();
             }
@@ -46,10 +45,10 @@ public class Gun : MonoBehaviour {
             if (target != null) {
                 target.TakeDamage(damage);
             }
+            GameObject bip = Instantiate(bullet_impact_effect, hit.point, Quaternion.LookRotation(hit.normal));
+            Destroy(bip, 1f);
+            gun.GetComponent<Animator>().Play("idle");
+            isFiring = false;
         }
-        GameObject bip = Instantiate(bullet_impact_effect, hit.point, Quaternion.LookRotation(hit.normal));
-        Destroy(bip, 1f);
-        gun.GetComponent<Animator>().Play("idle");
-        isFiring = false;
     }
 }
