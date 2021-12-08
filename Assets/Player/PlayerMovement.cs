@@ -19,7 +19,6 @@ public class PlayerMovement : MonoBehaviour {
     Vector3 velocity;
     bool is_grounded;
     bool is_running;
-    bool is_crouching;
 
     // Update is called once per frame
     void Update() {
@@ -52,8 +51,6 @@ public class PlayerMovement : MonoBehaviour {
             is_running = false;
             controller.Move(move * speed * Time.deltaTime);
         }
-
-
 
         velocity.y += gravity * Time.deltaTime;
         
