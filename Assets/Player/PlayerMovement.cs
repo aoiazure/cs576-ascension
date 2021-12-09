@@ -22,10 +22,11 @@ public class PlayerMovement : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+
         // check ground
         is_grounded = Physics.CheckSphere(ground_check.position, ground_distance, ground_mask);
         // jump
-        if(Input.GetButtonDown("Jump") && is_grounded) {
+        if (Input.GetButtonDown("Jump") && is_grounded) {
             velocity.y = Mathf.Sqrt(jump_height * -2 * gravity);
         }
         // not jumping
@@ -37,15 +38,20 @@ public class PlayerMovement : MonoBehaviour {
         float x = Input.GetAxis("Horizontal");
         // W/S
         float z = Input.GetAxis("Vertical");
+        Vector3 move;
 
-        Vector3 move = transform.right * x + transform.forward * z;
+        // Prevent A/D movement in air
+        if (!is_grounded)
+            move = transform.forward * z;
+        else
+            move = transform.right * x + transform.forward * z;
         move = move.normalized;
 
         // Sprinting
-        if(Input.GetButton("Run") && z > 0) {
+        if (Input.GetButton("Run") && z > 0) {
             is_running = true;
             controller.Move(move * speed * sprint_speed * Time.deltaTime);
-        } 
+        }
         // Not sprinting
         else {
             is_running = false;
@@ -53,7 +59,7 @@ public class PlayerMovement : MonoBehaviour {
         }
 
         velocity.y += gravity * Time.deltaTime;
-        
+
         controller.Move(velocity * Time.deltaTime);
     }
 }

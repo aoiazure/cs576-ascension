@@ -21,7 +21,7 @@ public class Gun : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (Input.GetButton("Fire1") && Time.time >= next_time_to_fire) {
+        if (Input.GetButtonDown("Fire1") && Time.time >= next_time_to_fire) {
             // Muzzle Flash Particles
             GameObject mzf = Instantiate(muzzle_flash_effect, muzzle_transform.transform.position, Quaternion.LookRotation(fps_cam.transform.forward, Vector3.up));
             mzf.transform.SetParent(this.transform);
@@ -41,14 +41,14 @@ public class Gun : MonoBehaviour {
         RaycastHit hit;
         if (Physics.Raycast(fps_cam.transform.position, fps_cam.transform.forward, out hit, range)) {
             Debug.Log(hit.transform.name);
-            Target target = hit.transform.GetComponent<Target>();
-            if (target != null) {
-                target.TakeDamage(damage);
+            Enemy enemy = hit.transform.GetComponent<Enemy>();
+            if (enemy != null) {
+                enemy.TakeDamage(damage);
             }
             GameObject bip = Instantiate(bullet_impact_effect, hit.point, Quaternion.LookRotation(hit.normal));
             Destroy(bip, 1f);
             gun.GetComponent<Animator>().Play("idle");
-            is_firing = false;
         }
+        is_firing = false;
     }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Zone : MonoBehaviour {
+    public GameManager gm;
+
     private Color m_oldcolor = Color.white;
 
     private bool is_in_zone = false;
@@ -18,9 +20,11 @@ public class Zone : MonoBehaviour {
             render.material.color = Color.green;
             Debug.Log("Player entered the zone");
         }
+
     }
 
     void OnTriggerExit(Collider other) {
+        
         if(other.transform.name == "Player") {
             is_in_zone = false;
 
@@ -30,5 +34,6 @@ public class Zone : MonoBehaviour {
             render.material.color = Color.white;
             Debug.Log("Player exited the zone");
         }
+
     }
 }
