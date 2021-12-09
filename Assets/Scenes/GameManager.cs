@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
     public Zone[] zones;
+    Zone current_zone;
 
     // Start is called before the first frame update
     void Start() {
@@ -14,4 +15,10 @@ public class GameManager : MonoBehaviour {
     void Update() {
 
     }
+
+    public void SetCurrentZone(Zone z = null) {
+        current_zone = z;
+    }
+
+
 }
