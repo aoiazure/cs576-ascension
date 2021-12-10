@@ -2767,6 +2767,7 @@ MonoBehaviour:
   - {fileID: 1635961208}
   - {fileID: 352549704}
   - {fileID: 1940279686}
+  enter_zone: {fileID: 0}
 --- !u!65 &751009456
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6782,6 +6783,7 @@ MonoBehaviour:
   - {fileID: 2108431393}
   - {fileID: 1954782302}
   - {fileID: 397417061}
+  enter_zone: {fileID: 8300000, guid: ae49bec18c2457d45af242aa87b12c33, type: 3}
 --- !u!1 &1563595437
 GameObject:
   m_ObjectHideFlags: 0
