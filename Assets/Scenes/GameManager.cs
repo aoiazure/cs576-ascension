@@ -5,20 +5,27 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
-    // PLAYER REF
-    public GameObject player;
-    public Text kill_tracker;
-    int kill_count = 0;
+    // Player Ref
+    public GameObject player;   // Player ref
 
-    public Text game_time_text;
-    float game_timer = 0.0f;
-    int total_time_elapsed = 0;
+    // UI Ref
+    public Text kill_tracker;   // Kill count Text UI ref
+    int kill_count = 0;         // Keeps track of number of kills
 
-    public GameObject wave_count_text;
+    public Text game_time_text; // Game Time UI ref
+    float game_timer = 0.0f;    // Total time elapsed in decimals
+    int total_time_elapsed = 0; // Seconds of time elapsed
 
+    public GameObject wave_count_text; // Wave Count UI ref
+
+    public GameObject zone_count_text; // Number in Zone Text Ref
+    public GameObject zone_timer_text; // Timer for Zone Text Ref
+
+    // Zone Refs
     public Zone[] zones;
     Zone current_zone = null;
 
+    // Enemy Refs
     public Enemy enemy_prefab;
     public Transform[] enemy_spawn;
     public List<Enemy> enemy_list;
@@ -27,12 +34,17 @@ public class GameManager : MonoBehaviour {
      * game_start : bool = tracks if player started the game
      * wave_number : int = current wave; game scales off of number of waves
      * time_between_waves : float = time between wave spawns
-     * timer_waves : float = keeps track of time
+     * timer_waves : float = keeps track of time of waves
      * 
      * num_enemies : int = total number of enemies spawned this wave
      * max_num_enemies : int = max number enemies for the wave = wave * 2 (min 3)
      * spawn_delay : float = delay between spawning enemies per wave. gets shorter over time
      * spawn_timer : float = keeps track of time between spawning enemies
+     * 
+     * num_powerups : int = powerups spawned on the map so far
+     * max_num_powerups : int = max number of powerups that can exist at once
+     * p_spawn_delay : float = delay between powerups spawning
+     * p_spawn_timer : float = keeps track of time between spawning powerups
     ***/
     bool game_start = false;
     int wave_number = 0;
@@ -49,14 +61,26 @@ public class GameManager : MonoBehaviour {
     float p_spawn_delay = 10.0f;
     float p_spawn_timer = 0.0f;
 
+    // Management
+    /***
+     * LOSE CONDITIONS:
+     *  - Leaving the Zone (immediate loss)
+     *  - current_zone.lose_number of enemies in the Zone (immediate loss)
+     *  - An enemy in the Zone for lose_time seconds
+    ***/
+    bool has_lost = false;
+    float lose_time = 30.0f;
+    float lose_timer = 0.0f;
+
     // Update is called once per frame
     void Update() {
         // if player has started the game
-        if (game_start) {
+        if (game_start && !has_lost) {
             PlayGame();
         }
     }
 
+    // Called when game is being played
     void PlayGame() {
         // Game timer
         game_timer += Time.deltaTime;
@@ -125,20 +149,62 @@ public class GameManager : MonoBehaviour {
                 Debug.Log("Powerup Spawned!");
                 // reset powerup spawn timer
                 p_spawn_timer = 0.0f;
+                num_powerups++;
                 // Spawn powerup
                 current_zone.SpawnPowerUp();
             }
+
+            //// ENEMY TIMER
+            // if there are enemies in the zone
+            if (current_zone.enemies_in_zone > 0) {
+                // Tick up lose timer
+                lose_timer += Time.deltaTime;
+                // Update text
+                zone_count_text.GetComponent<Text>().text = "Enemies in Zone: " + current_zone.enemies_in_zone;
+                zone_timer_text.GetComponent<Text>().text = "Time to Remove Enemies in Zone: " + lose_timer.ToString("F1");
+                // Enable relevant UI
+                if (!zone_count_text.activeSelf)
+                    zone_count_text.SetActive(true);
+                if (!zone_timer_text.activeSelf)
+                    zone_timer_text.SetActive(true);
+                // then if it's been too long
+                if (lose_timer >= lose_time) {
+                    // Lose the game
+                    LoseGame("You had enemies in the zone for too long!");
+                }
+            } else { // If there aren't enemies or they've been removed
+                // Disable texts
+                if (zone_count_text.activeSelf)
+                    zone_count_text.SetActive(false);
+                if (zone_timer_text.activeSelf)
+                    zone_timer_text.SetActive(false);
+                // Reset time
+                lose_timer = 0.0f;
+            }
+
+        } else {
+            // Lose game if game started and then Player left zone
+            LoseGame("You left the zone!");
         }
     }
 
+    // Called when you lose the game
+    public void LoseGame(string reason) {
+        Debug.Log("YOU LOSE!\n" + reason);
+        has_lost = true;
+        Time.timeScale = 0;
+        Cursor.lockState = CursorLockMode.Confined;
+    }
+
+
     //// Helpers
-    
+    // Show wave count
     IEnumerator UpdateWaveText() {
         Text t = wave_count_text.GetComponent<Text>();
         Color c = t.color;
         c.a = 1f;
         t.color = c;
-        t.text = "Wave " + wave_number;
+        t.text = "Wave " + (wave_number + 1);
         wave_count_text.SetActive(true);
         yield return new WaitForSeconds(3.0f);
         for (float alpha = 1f; alpha >= 0; alpha -= 0.1f) {
@@ -148,7 +214,6 @@ public class GameManager : MonoBehaviour {
         }
         wave_count_text.SetActive(false);
     }
-
     // Called when an Enemy dies
     public void EnemyDie() {
         kill_count += 1;
@@ -158,6 +223,11 @@ public class GameManager : MonoBehaviour {
     public void SetCurrentZone(Zone z = null) {
         current_zone = z;
         game_start = true;
+        // show wave number
+        StartCoroutine(UpdateWaveText());
+    }
+    public void PowerupPickup() {
+        num_powerups--;
     }
     // Enable slow Powerup across all active enemies
     public void EnableSlow(bool active) {

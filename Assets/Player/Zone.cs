@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Zone : MonoBehaviour {
-    
+
     private bool is_in_zone = false;
-    
+    public int enemies_in_zone = 0;
+    public int lose_number = 3;
+
     // REFERENCES
     public GameManager gm;
     public Powerup power_damage;    // doubles damage
@@ -15,8 +17,17 @@ public class Zone : MonoBehaviour {
 
     private Color m_oldcolor = Color.white;
 
+    public void Update() {
+        // Called if 
+        if (enemies_in_zone >= lose_number) {
+            enemies_in_zone = 0;
+            gm.LoseGame("You had too many enemies enter the area!");
+        }
+    }
+
     void OnTriggerEnter(Collider other) {
-        if(other.transform.name == "Player") {
+
+        if (other.transform.name == "Player") {
             is_in_zone = true;
             gm.SetCurrentZone(this);
 
@@ -24,14 +35,20 @@ public class Zone : MonoBehaviour {
             Renderer render = GetComponent<Renderer>();
             m_oldcolor = render.material.color;
             render.material.color = Color.green;
-            Debug.Log("Player entered the zone");
+        } else {
+            Enemy e = other.GetComponent<Enemy>();
+            if (e != null) {
+                Debug.Log("ENEMY ENTERED");
+                e.zone = this;
+                enemies_in_zone++;
+            }
         }
 
     }
 
     void OnTriggerExit(Collider other) {
-        
-        if(other.transform.name == "Player") {
+
+        if (other.transform.name == "Player") {
             is_in_zone = false;
             gm.SetCurrentZone(null);
 
@@ -39,9 +56,14 @@ public class Zone : MonoBehaviour {
             Renderer render = GetComponent<Renderer>();
             m_oldcolor = render.material.color;
             render.material.color = Color.white;
-            Debug.Log("Player exited the zone");
+        } else {
+            Debug.Log("SOMETHING LEFT");
         }
+    }
 
+    public void EnemyInZoneDie() {
+        Debug.Log("DEATH");
+        enemies_in_zone--;
     }
 
     // SPAWN POWERUPS

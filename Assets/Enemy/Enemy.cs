@@ -3,7 +3,7 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour {
     public GameManager gm;
-
+    public Zone zone = null;
     // STATS
     public float health = 50;
 
@@ -29,11 +29,13 @@ public class Enemy : MonoBehaviour {
         }
     }
 
-    void Die()
-    {
+    void Die() {
+        
         gm.EnemyDie();
         AudioSource.PlayClipAtPoint(death, transform.position);
         gm.enemy_list.Remove(this);
+        if (zone != null)
+            this.zone.EnemyInZoneDie();
         Destroy(gameObject);
     }
 }
