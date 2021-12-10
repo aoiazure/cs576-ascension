@@ -766,9 +766,9 @@ RectTransform:
   m_Father: {fileID: 1229379599}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -500, y: 120}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 175, y: -100}
   m_SizeDelta: {x: 250, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &441722460
@@ -2159,6 +2159,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainMenuUI: {fileID: 1229379598}
   infoUI: {fileID: 1619988356}
+  input: 
 --- !u!1 &1619988356
 GameObject:
   m_ObjectHideFlags: 0
@@ -2472,28 +2473,28 @@ MonoBehaviour:
 
     Lose Condition:
 
-    If you exit the site or if 3+ enemies
-    remain on the site for over 5 seconds you lost the site!
+    If you exit the site or if at least
+    3 enemies enter the site or enemies have been on the site for over 5 seconds!
 
 
-    Hold a top position
-    through site holding and kills and reach the leaderboard to be considered the
-    ascended!
+    Hold
+    a top position through site holding and kills and reach the leaderboard to be
+    considered the ascended!
 
 
     CONTROLS:
 
     SHOOT: left mouse click
 
-    WALK: w/a/s/d
+    WALK:
+    w/a/s/d
 
-    SPRINT:
-    shift + w
+    SPRINT: shift + w
 
     JUMP: space
 
-    POWERUPS: 01 - enemy speed debuff, 02 - shoot
-    speed buff, 03 - damage amp
+    POWERUPS: 01 (blue) - enemy
+    speed debuff, 02 (gold) - shoot speed buff, 03 (gray) - damage amp
 
 '
 --- !u!222 &1998042179
@@ -2563,12 +2564,12 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 84348d5efa77ee245b64faa9e90f3fb9, type: 3}
-    m_FontSize: 14
+    m_FontSize: 18
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 1
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 0
     m_HorizontalOverflow: 1
