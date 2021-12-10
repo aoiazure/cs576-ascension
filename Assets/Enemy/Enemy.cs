@@ -28,6 +28,7 @@ public class Enemy : MonoBehaviour {
     }
 
     void Die() {
+        gm.EnemyDie();
         gm.enemy_list.Remove(this);
         Destroy(gameObject);
     }

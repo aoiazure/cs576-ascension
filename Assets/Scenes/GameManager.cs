@@ -2,11 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
     // PLAYER REF
     public GameObject player;
+    public Text kill_tracker;
+    int kill_count = 0;
 
+    public Text game_time_text;
+    float game_timer = 0.0f;
+    int total_time_elapsed = 0;
 
     public Zone[] zones;
     Zone current_zone = null;
@@ -36,6 +42,11 @@ public class GameManager : MonoBehaviour {
     float spawn_delay = 2.0f;
     float spawn_timer = 0.0f;
 
+    int num_powerups = 0;
+    int max_num_powerups = 1;
+    float p_spawn_delay = 10.0f;
+    float p_spawn_timer = 0.0f;
+
     // Update is called once per frame
     void Update() {
         // if player has started the game
@@ -45,15 +56,29 @@ public class GameManager : MonoBehaviour {
     }
 
     void PlayGame() {
+        // Game timer
+        game_timer += Time.deltaTime;
+        if (game_timer >= 1.0f) {
+            game_timer = 0.0f;
+            total_time_elapsed += 1;
+            string minutes = ((total_time_elapsed / (total_time_elapsed % 60)) - 1).ToString(), seconds;
+            if (total_time_elapsed % 60 < 10)
+                seconds = "0" + (total_time_elapsed % 60);
+            else
+                seconds = (total_time_elapsed % 60).ToString();
+            game_time_text.text = "Time:\n" + minutes + ":" + seconds;
+        }
+
         // set max number of enemies per wave = wave * 2 (min 3)
         max_num_enemies = Mathf.Max(wave_number * 2, 3);
 
         // IF IN A ZONE
         if (current_zone != null) {
+            //// WAVE TIMERS
             // tick up wave timer
-            timer_waves += Time.deltaTime; 
+            timer_waves += Time.deltaTime;
             // if enough time has passed between rounds, scale up wave
-            if(timer_waves >= time_between_waves) {
+            if (timer_waves >= time_between_waves) {
                 Debug.Log("WAVE UP: " + (wave_number + 1));
                 timer_waves = 0.0f;
                 // tick up wave count
@@ -65,7 +90,8 @@ public class GameManager : MonoBehaviour {
                 // reset number of enemies
                 num_enemies = 0;
             }
-            
+
+            //// ENEMY SPAWNS
             // tick up spawn timer
             spawn_timer += Time.deltaTime;
             // spawn enemy if its been long enough and we haven't reached wave cap
@@ -77,7 +103,7 @@ public class GameManager : MonoBehaviour {
                 int _r = Random.Range(0, enemy_spawn.Length);
                 // select that random spawn
                 Transform _spawn = enemy_spawn[_r];
-                
+
                 // Spawn enemy at that position
                 Enemy e = Instantiate(enemy_prefab, _spawn.position, Quaternion.identity);
                 e.gm = this;
@@ -90,11 +116,23 @@ public class GameManager : MonoBehaviour {
                 e.GetComponent<NavMeshAgent>().angularSpeed += 5;
             }
 
+            //// POWERUP SPAWNS
+            p_spawn_timer += Time.deltaTime;
+            if (p_spawn_timer >= p_spawn_delay && num_powerups < max_num_powerups) {
+                Debug.Log("Powerup Spawned!");
+                // reset powerup spawn timer
+                p_spawn_timer = 0.0f;
+                // Spawn powerup
+                current_zone.SpawnPowerUp();
+            }
         }
     }
 
-
     // helpers
+    public void EnemyDie() {
+        kill_count += 1;
+        kill_tracker.text = "Kills: " + kill_count;
+    }
     public void SetCurrentZone(Zone z = null) {
         current_zone = z;
         game_start = true;

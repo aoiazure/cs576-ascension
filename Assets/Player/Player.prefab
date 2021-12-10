@@ -619,13 +619,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 3
     m_MaxSize: 40
-    m_Alignment: 4
+    m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 0
+  m_Text: 'Kills: 0'
 --- !u!1 &3597705532079199699
 GameObject:
   m_ObjectHideFlags: 0
@@ -704,9 +704,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '0
+  m_Text: 'Time:
 
-    seconds'
+    0:00'
 --- !u!1 &4815264958945249180
 GameObject:
   m_ObjectHideFlags: 0

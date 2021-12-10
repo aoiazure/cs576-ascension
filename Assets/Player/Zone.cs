@@ -8,6 +8,9 @@ public class Zone : MonoBehaviour {
     
     // REFERENCES
     public GameManager gm;
+    public Powerup power_damage;    // doubles damage
+    public Powerup power_speed;     // doubles fire rate
+    public Powerup power_slow;      // slows enemies by 50%
     public Transform[] powerup_spawns;
 
     private Color m_oldcolor = Color.white;
@@ -42,12 +45,26 @@ public class Zone : MonoBehaviour {
     }
 
     // SPAWN POWERUPS
-    public void SpawnPowerUp(int powerup = 0) {
-        // 0 = random; 1 = ?; 2 = ?; 3 = ?
-        switch (powerup) {
-            
-            
+    public void SpawnPowerUp(int powerup = 3) {
+        // 0 = ?; 1 = ?; 2 = ?; 3 = random
+        Powerup p;
+        int _p = powerup;
+        if (_p == 3) {
+            _p = Random.Range(0, 3);
+
+        }
+        int _r = Random.Range(0, powerup_spawns.Length);
+        Transform _spawn = powerup_spawns[_r];
+        switch (_p) {
             case 0:
+                p = Instantiate(power_damage, _spawn.position, Quaternion.identity);
+                break;
+            case 1:
+                p = Instantiate(power_speed, _spawn.position, Quaternion.identity);
+                break;
+            case 2:
+                p = Instantiate(power_slow, _spawn.position, Quaternion.identity);
+                break;
             default:
                 break;
         }
