@@ -1,2 +1,2 @@
-We implemented MainMenu.cs, GameManager.cs, LoadSettings.cs, Enemy.cs, Gun.cs, MouseLook.cs, PlayerMovement.cs, PlayerRun.cs,
-PlayerState.cs, PlayerWalk.cs, Zone.cs, Powerup.cs, InfoMenu.cs.
+Ken: MainMenu.cs, PlayerRun.cs, PlayerWalk.cs, Zone.cs, InfoMenu.cs, Gun.cs, PauseMenu.cs, Powerup.cs.
+Norapat: GameManager.cs, LoadSettings.cs, Enemy.cs, Gun.cs, MouseLook.cs, PlayerMovement.cs, Zone.cs, Powerup.cs.

@@ -17,6 +17,8 @@ public class Zone : MonoBehaviour {
 
     private Color m_oldcolor = Color.white;
 
+    public AudioClip enter_zone;
+
     public void Update() {
         // Called if 
         if (enemies_in_zone >= lose_number) {
@@ -35,6 +37,9 @@ public class Zone : MonoBehaviour {
             Renderer render = GetComponent<Renderer>();
             m_oldcolor = render.material.color;
             render.material.color = Color.green;
+
+            // play sound
+            AudioSource.PlayClipAtPoint(enter_zone, transform.position);
         } else {
             Enemy e = other.GetComponent<Enemy>();
             if (e != null) {
