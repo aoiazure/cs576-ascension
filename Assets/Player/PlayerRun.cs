@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAudio : MonoBehaviour
+public class PlayerRun : MonoBehaviour
 {
     private AudioSource audioSource;
     private bool is_running;
