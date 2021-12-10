@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour {
 
     public Transform goal;
     NavMeshAgent agent;
+    public AudioClip death;
 
     void Start() {
         gm.enemy_list.Add(this); // add reference to enemy to enemy_list for later
@@ -28,7 +29,11 @@ public class Enemy : MonoBehaviour {
     }
 
     void Die() {
+<<<<<<< Updated upstream
         gm.EnemyDie();
+=======
+        AudioSource.PlayClipAtPoint(death, transform.position);
+>>>>>>> Stashed changes
         gm.enemy_list.Remove(this);
         Destroy(gameObject);
     }

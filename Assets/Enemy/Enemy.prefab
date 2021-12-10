@@ -111,8 +111,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e9d58aeb747def4b9dcc53efd91b8a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gm: {fileID: 0}
   health: 20
   goal: {fileID: 0}
+  death: {fileID: 8300000, guid: e48239bfda7b13145a95fefa74bde178, type: 3}
 --- !u!195 &3132748237911926701
 NavMeshAgent:
   m_ObjectHideFlags: 0

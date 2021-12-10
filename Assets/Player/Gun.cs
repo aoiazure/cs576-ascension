@@ -47,8 +47,8 @@ public class Gun : MonoBehaviour {
             }
             GameObject bip = Instantiate(bullet_impact_effect, hit.point, Quaternion.LookRotation(hit.normal));
             Destroy(bip, 1f);
-            gun.GetComponent<Animator>().Play("idle");
         }
+        gun.GetComponent<Animator>().Play("idle");
         is_firing = false;
     }
 }
