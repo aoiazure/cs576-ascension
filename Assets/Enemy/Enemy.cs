@@ -28,14 +28,10 @@ public class Enemy : MonoBehaviour {
         }
     }
 
-    void Die() {
-<<<<<<< Updated upstream
+    void Die()
+    {
         gm.EnemyDie();
-=======
-        AudioSource.PlayClipAtPoint(death, transform.position);
->>>>>>> Stashed changes
         gm.enemy_list.Remove(this);
         Destroy(gameObject);
     }
-
 }
