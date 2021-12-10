@@ -5,22 +5,20 @@ using UnityEngine;
 public class Powerup : MonoBehaviour {
 
     public enum PowerType : int {
-        power_damage,
-        power_speed,
-        power_slow
+        power_damage,   // doubles damage
+        power_speed,    // doubles fire rate 
+        power_slow      // slows enemies by 50%
     }
 
     public PowerType type = PowerType.power_damage;
 
-
-    // Start is called before the first frame update
-    void Start() {
-        // set texture based on type maybe?
-    }
-
     public void OnTriggerEnter(Collider other) {
         if(other.name == "Player") {
-            Debug.Log("player contact with " + type);
+            // Activate Powerup
+            PlayerState player_state = other.GetComponent<PlayerState>();
+            player_state.ChangePower((int)type);
+
+
             Destroy(gameObject);
         }
     }

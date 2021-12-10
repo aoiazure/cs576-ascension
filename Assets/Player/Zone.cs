@@ -13,7 +13,6 @@ public class Zone : MonoBehaviour {
     private Color m_oldcolor = Color.white;
 
     void OnTriggerEnter(Collider other) {
-
         if(other.transform.name == "Player") {
             is_in_zone = true;
             gm.SetCurrentZone(this);

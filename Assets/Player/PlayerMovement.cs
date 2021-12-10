@@ -49,11 +49,15 @@ public class PlayerMovement : MonoBehaviour {
 
         // Sprinting
         if (Input.GetButton("Run") && z > 0) {
+            // FOV change when running
+            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, 80, 0.05f);
             is_running = true;
             controller.Move(move * speed * sprint_speed * Time.deltaTime);
         }
         // Not sprinting
         else {
+            // Revert FOV
+            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, 70, 0.01f);
             is_running = false;
             controller.Move(move * speed * Time.deltaTime);
         }
