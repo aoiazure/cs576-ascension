@@ -110,3 +110,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
+  collect_powerup: {fileID: 8300000, guid: 5644004ef5b047e4d92b4d0ab9f89a1d, type: 3}

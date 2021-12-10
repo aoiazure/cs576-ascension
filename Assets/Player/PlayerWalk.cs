@@ -5,8 +5,12 @@ using UnityEngine;
 public class PlayerWalk : MonoBehaviour
 {
     private AudioSource audioSource;
+    public Transform ground_check;
+    public float ground_distance = 0.4f;
+    public LayerMask ground_mask;
     private bool is_walking;
     private bool is_running;
+    private bool is_grounded;
 
     void Start()
     {
@@ -15,13 +19,15 @@ public class PlayerWalk : MonoBehaviour
 
     void Update()
     {
+        // check ground
+        is_grounded = Physics.CheckSphere(ground_check.position, ground_distance, ground_mask);
         // A/D
         float x = Input.GetAxis("Horizontal");
         // W/S
         float z = Input.GetAxis("Vertical");
 
         // Walking
-        if (!Input.GetButton("Run") && !Input.GetButton("Jump"))
+        if (!Input.GetButton("Run") && !Input.GetButton("Jump") && is_grounded)
         {
             if (x != 0 || z != 0)
             {
@@ -33,7 +39,7 @@ public class PlayerWalk : MonoBehaviour
                 is_walking = false;
             }
         }
-        if (Input.GetButton("Run"))
+        else
         {
             is_walking = false;
         }
