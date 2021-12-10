@@ -26,7 +26,6 @@ public class PlayerState : MonoBehaviour {
         // Do stuff if in a power
         if (current_power >= 0) {
             power_timer += Time.deltaTime;
-
             switch(current_power) {
                 case 0: // damage
 
@@ -43,8 +42,6 @@ public class PlayerState : MonoBehaviour {
 
             // if power runs out
             if(power_timer >= power_duration) {
-                current_power = -1; // reset to no power
-                power_timer = 0.0f; // reset timer
                 // undo power changes
                 switch (current_power) {
                     case 0: // damage
@@ -59,6 +56,8 @@ public class PlayerState : MonoBehaviour {
                     default:
                         break;
                 }
+                current_power = -1; // reset to no power
+                power_timer = 0.0f; // reset timer
             }
 
         }
@@ -68,7 +67,7 @@ public class PlayerState : MonoBehaviour {
 
     public void ChangePower(int power) {
         Debug.Log((Powerup.PowerType)power);
-        // if does not already have
+        // if does not already have or already have one
         if(power != current_power) {
             // picking up new power, so reset current's effects
             switch (current_power) {

@@ -4,18 +4,27 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class GameManager : MonoBehaviour {
+    // PLAYER REF
+    public GameObject player;
+
+
     public Zone[] zones;
     Zone current_zone = null;
 
+    public Enemy enemy_prefab;
     public Transform[] enemy_spawn;
-    public Enemy[] enemy_list;
-
-    bool powerup_slow = false;
+    public List<Enemy> enemy_list;
 
     /*** STATS
+     * game_start : bool = tracks if player started the game
      * wave_number : int = current wave; game scales off of number of waves
      * time_between_waves : float = time between wave spawns
-     * timer_waves : float = keeps track of time 
+     * timer_waves : float = keeps track of time
+     * 
+     * num_enemies : int = total number of enemies spawned this wave
+     * max_num_enemies : int = max number enemies for the wave = wave * 2 (min 3)
+     * spawn_delay : float = delay between spawning enemies per wave. gets shorter over time
+     * spawn_timer : float = keeps track of time between spawning enemies
     ***/
     bool game_start = false;
     int wave_number = 0;
@@ -23,27 +32,64 @@ public class GameManager : MonoBehaviour {
     float timer_waves = 0.0f;
 
     int num_enemies = 0;
-
-
-    // Start is called before the first frame update
-    void Start() {
-
-    }
+    int max_num_enemies; // max num enemies = wave * 2 (min 3)
+    float spawn_delay = 2.0f;
+    float spawn_timer = 0.0f;
 
     // Update is called once per frame
     void Update() {
-        // if player is actively in one
+        // if player has started the game
         if (game_start) {
             PlayGame();
         }
-
-
     }
 
     void PlayGame() {
-        // Debug.Log("ACTIVE");
+        // set max number of enemies per wave = wave * 2 (min 3)
+        max_num_enemies = Mathf.Max(wave_number * 2, 3);
+
+        // IF IN A ZONE
         if (current_zone != null) {
-            int _r = Random.Range(0, enemy_list.Length);
+            // tick up wave timer
+            timer_waves += Time.deltaTime; 
+            // if enough time has passed between rounds, scale up wave
+            if(timer_waves >= time_between_waves) {
+                Debug.Log("WAVE UP: " + (wave_number + 1));
+                timer_waves = 0.0f;
+                // tick up wave count
+                wave_number += 1;
+                // scale time between waves slowly
+                time_between_waves += 2.0f;
+                // scale spawn delay with wave number
+                spawn_delay = (time_between_waves - 2) / max_num_enemies;
+                // reset number of enemies
+                num_enemies = 0;
+            }
+            
+            // tick up spawn timer
+            spawn_timer += Time.deltaTime;
+            // spawn enemy if its been long enough and we haven't reached wave cap
+            if (spawn_timer >= spawn_delay && num_enemies < max_num_enemies) {
+                Debug.Log("Enemy Spawned: " + (num_enemies + 1));
+                // reset spawn timer
+                spawn_timer = 0.0f;
+                // choose a random spawn to spawn from
+                int _r = Random.Range(0, enemy_spawn.Length);
+                // select that random spawn
+                Transform _spawn = enemy_spawn[_r];
+                
+                // Spawn enemy at that position
+                Enemy e = Instantiate(enemy_prefab, _spawn.position, Quaternion.identity);
+                e.gm = this;
+                e.goal = player.transform; // target player for pathfinding
+                num_enemies += 1; // tick up number
+
+                //// Wave scaling of enemies
+                // increase speed slowly
+                e.GetComponent<NavMeshAgent>().speed += (wave_number * 0.25f);
+                e.GetComponent<NavMeshAgent>().angularSpeed += 5;
+            }
+
         }
     }
 
@@ -55,15 +101,14 @@ public class GameManager : MonoBehaviour {
     }
 
     public void EnableSlow(bool active) {
-        powerup_slow = active;
-        if (powerup_slow) { // if active, slow everything right now
+        if (active) { // if active, slow everything right now
             foreach (Enemy e in enemy_list) {
                 NavMeshAgent a = e.GetComponent<NavMeshAgent>();
                 a.speed /= 2;
             }
-        } else {
-            foreach (Enemy e in enemy_list) {
-                NavMeshAgent a = e.GetComponent<NavMeshAgent>();
+        } else { // if not active, undo
+            foreach (Enemy _e in enemy_list) {
+                NavMeshAgent a = _e.GetComponent<NavMeshAgent>();
                 a.speed *= 2;
             }
         }
