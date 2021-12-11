@@ -20,6 +20,7 @@ public class Leaderboard : MonoBehaviour {
     // Start is called before the first frame update
     void Start() {
         Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
 
         current_player_name = PlayerPrefs.GetString("username", "Player");
         current_player_time = PlayerPrefs.GetFloat("current_time", 0.0f);
