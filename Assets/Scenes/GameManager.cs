@@ -73,6 +73,10 @@ public class GameManager : MonoBehaviour {
     float lose_time = 5.0f;
     float lose_timer = 0.0f;
 
+    private void Start() {
+        Time.timeScale = 1.0f;
+    }
+
     // Update is called once per frame
     void Update() {
         // if player has started the game
@@ -199,7 +203,7 @@ public class GameManager : MonoBehaviour {
         PlayerPrefs.SetInt("current_kills", kill_count);
         has_lost = true;
         Time.timeScale = 0;
-        Debug.Log(total_timer);
+        //Debug.Log(total_timer);
         Cursor.lockState = CursorLockMode.Confined;
         UnityEngine.SceneManagement.SceneManager.LoadScene("LeaderBoard");
     }
