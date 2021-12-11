@@ -19,6 +19,8 @@ public class Leaderboard : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
+        Cursor.lockState = CursorLockMode.None;
+
         current_player_name = PlayerPrefs.GetString("username", "Player");
         current_player_time = PlayerPrefs.GetFloat("current_time", 0.0f);
         current_player_kills = PlayerPrefs.GetInt("current_kills", 0);
