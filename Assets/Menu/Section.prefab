@@ -249,6 +249,7 @@ GameObject:
   - component: {fileID: 5284018443453156310}
   - component: {fileID: 5284018443453156309}
   - component: {fileID: 5284018443453156308}
+  - component: {fileID: 9143200842994392352}
   m_Layer: 5
   m_Name: Section
   m_TagString: Untagged
@@ -343,6 +344,22 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &9143200842994392352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5284018443453156306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad5aee50bacbf4d409ab6114437fa30a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rank: {fileID: 5284018442330416063}
+  username: {fileID: 5284018443807842176}
+  time: {fileID: 5284018442390783049}
+  kills: {fileID: 5284018443199430049}
 --- !u!1 &5284018443807842302
 GameObject:
   m_ObjectHideFlags: 0

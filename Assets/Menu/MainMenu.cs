@@ -9,15 +9,13 @@ public class MainMenu : MonoBehaviour {
     public GameObject infoUI;
     public string input;
 
-    void Start()
-    {
+    void Start() {
         MainMenuUI.SetActive(true);
         infoUI.SetActive(false);
         PlayerPrefs.DeleteKey("username");
     }
 
-    public void InfoButton()
-    {
+    public void InfoButton() {
         MainMenuUI.SetActive(false);
         infoUI.SetActive(true);
     }
@@ -31,8 +29,7 @@ public class MainMenu : MonoBehaviour {
         SceneManager.LoadScene("Ascension");
     }
 
-    public void readString(string s)
-    {
+    public void readString(string s) {
         input = s;
         PlayerPrefs.SetString("username", input);
     }

@@ -13,7 +13,8 @@ public class GameManager : MonoBehaviour {
     int kill_count = 0;         // Keeps track of number of kills
 
     public Text game_time_text; // Game Time UI ref
-    float game_timer = 0.0f;    // Total time elapsed in decimals
+    float game_timer = 0.0f;    // time elapsed in decimals
+    float total_timer = 0.0f;
     int total_time_elapsed = 0; // Seconds of time elapsed
 
     public GameObject wave_count_text; // Wave Count UI ref
@@ -69,7 +70,7 @@ public class GameManager : MonoBehaviour {
      *  - An enemy in the Zone for lose_time seconds
     ***/
     bool has_lost = false;
-    float lose_time = 30.0f;
+    float lose_time = 5.0f;
     float lose_timer = 0.0f;
 
     // Update is called once per frame
@@ -84,6 +85,7 @@ public class GameManager : MonoBehaviour {
     void PlayGame() {
         // Game timer
         game_timer += Time.deltaTime;
+        total_timer += Time.deltaTime;
         if (game_timer >= 1.0f) {
             game_timer = 0.0f;
             total_time_elapsed += 1;
@@ -102,7 +104,7 @@ public class GameManager : MonoBehaviour {
             timer_waves += Time.deltaTime;
             // if enough time has passed between rounds, scale up wave
             if (timer_waves >= time_between_waves) {
-                Debug.Log("WAVE UP: " + (wave_number + 1));
+                // Debug.Log("WAVE UP: " + (wave_number + 1));
                 timer_waves = 0.0f;
                 // tick up wave count
                 wave_number += 1;
@@ -123,7 +125,7 @@ public class GameManager : MonoBehaviour {
             spawn_timer += Time.deltaTime;
             // spawn enemy if its been long enough and we haven't reached wave cap
             if (spawn_timer >= spawn_delay && num_enemies < max_num_enemies) {
-                Debug.Log("Enemy Spawned: " + (num_enemies + 1));
+                // Debug.Log("Enemy Spawned: " + (num_enemies + 1));
                 // reset spawn timer
                 spawn_timer = 0.0f;
                 // choose a random spawn to spawn from
@@ -146,7 +148,7 @@ public class GameManager : MonoBehaviour {
             //// POWERUP SPAWNS
             p_spawn_timer += Time.deltaTime;
             if (p_spawn_timer >= p_spawn_delay && num_powerups < max_num_powerups) {
-                Debug.Log("Powerup Spawned!");
+                // Debug.Log("Powerup Spawned!");
                 // reset powerup spawn timer
                 p_spawn_timer = 0.0f;
                 num_powerups++;
@@ -161,7 +163,7 @@ public class GameManager : MonoBehaviour {
                 lose_timer += Time.deltaTime;
                 // Update text
                 zone_count_text.GetComponent<Text>().text = "Enemies in Zone: " + current_zone.enemies_in_zone;
-                zone_timer_text.GetComponent<Text>().text = "Time to Remove Enemies in Zone: " + lose_timer.ToString("F1");
+                zone_timer_text.GetComponent<Text>().text = "Time to Remove Enemies in Zone: " + (lose_time - lose_timer).ToString("F1");
                 // Enable relevant UI
                 if (!zone_count_text.activeSelf)
                     zone_count_text.SetActive(true);
@@ -191,9 +193,15 @@ public class GameManager : MonoBehaviour {
     // Called when you lose the game
     public void LoseGame(string reason) {
         Debug.Log("YOU LOSE!\n" + reason);
+
+        // Save current_time
+        PlayerPrefs.SetFloat("current_time", total_timer);
+        PlayerPrefs.SetInt("current_kills", kill_count);
         has_lost = true;
         Time.timeScale = 0;
+        Debug.Log(total_timer);
         Cursor.lockState = CursorLockMode.Confined;
+        UnityEngine.SceneManagement.SceneManager.LoadScene("LeaderBoard");
     }
 
 
