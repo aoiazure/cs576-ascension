@@ -13,6 +13,8 @@ public class MainMenu : MonoBehaviour {
         MainMenuUI.SetActive(true);
         infoUI.SetActive(false);
         PlayerPrefs.DeleteKey("username");
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     public void InfoButton() {
