@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Leaderboard : MonoBehaviour {
 
@@ -70,9 +71,9 @@ public class Leaderboard : MonoBehaviour {
                 rank++;
             }
         }
-
-
-        
-
+    }
+    public void BackButton()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }
