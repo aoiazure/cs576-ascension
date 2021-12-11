@@ -41,18 +41,20 @@ public class Zone : MonoBehaviour {
             // play sound
             AudioSource.PlayClipAtPoint(enter_zone, transform.position);
         } else {
-            Enemy e = other.GetComponent<Enemy>();
-            if (e != null) {
-                Debug.Log("ENEMY ENTERED");
-                e.zone = this;
-                enemies_in_zone++;
+            // Only trigger enemies if player is in it
+            if (is_in_zone) { 
+                Enemy e = other.GetComponent<Enemy>();
+                if (e != null) {
+                    Debug.Log("ENEMY ENTERED");
+                    e.zone = this;
+                    enemies_in_zone++;
+                }
             }
         }
 
     }
 
     void OnTriggerExit(Collider other) {
-
         if (other.transform.name == "Player") {
             is_in_zone = false;
             gm.SetCurrentZone(null);
@@ -63,6 +65,14 @@ public class Zone : MonoBehaviour {
             render.material.color = Color.white;
         } else {
             Debug.Log("SOMETHING LEFT");
+            if (is_in_zone) {
+                Enemy e = other.GetComponent<Enemy>();
+                if (e != null) {
+                    Debug.Log("ENEMY LEFT");
+                    e.zone = null;
+                    enemies_in_zone--;
+                }
+            }
         }
     }
 
